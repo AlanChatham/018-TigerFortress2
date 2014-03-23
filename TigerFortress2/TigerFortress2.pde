@@ -9,6 +9,8 @@ int IMAGE_OFFSET_Y = 50;
 int iox = IMAGE_OFFSET_X;
 int ioy = IMAGE_OFFSET_Y;
 
+
+/* @pjs preload="playfield.jpg"; */
 PImage PlayfieldImage;
 
 
@@ -45,8 +47,8 @@ int[][][] ReticleOffsets = { { {0,0}, {0,0}, {0,0} },
                              { {0,0}, {0,0} }
                            };
                            
-int ShotPowerX = 20;
-int ShotPowerY = 100;
+int ShotPowerX = 20 + IMAGE_OFFSET_X;
+int ShotPowerY = 200 + IMAGE_OFFSET_Y;
 int ShotPowerVerticalOffset = 8;
 int ShotPowerBarWidth = 3;
 int ShotPowerWidthIncrement = 2;
@@ -75,7 +77,7 @@ void setup(){
 }
 
 void draw(){
-  image(PlayfieldImage, 0, 0);
+  image(PlayfieldImage, IMAGE_OFFSET_X, IMAGE_OFFSET_Y);
   // Draw the reticle
   noFill();
   stroke(0);
@@ -144,12 +146,12 @@ void draw(){
   // Create a new enemy every so often
   FramesUntilEnemySpawn--;
   if (FramesUntilEnemySpawn <= 0){
-    float random = random(9);
-    if (random <= 3){
+    float rand = random(9);
+    if (rand <= 3){
       EnemyArray.add(new Scout());
-    } else if (random <= 6){
+    } else if (rand <= 6){
       EnemyArray.add(new Heavy());
-    } else if (random <= 8){
+    } else if (rand <= 8){
       EnemyArray.add(new Sniper(0));
     } else {
       EnemyArray.add(new Sniper(1));
