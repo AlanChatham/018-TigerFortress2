@@ -10,7 +10,7 @@ int iox = IMAGE_OFFSET_X;
 int ioy = IMAGE_OFFSET_Y;
 
 
-/* @pjs preload="playfield.jpg"; */
+/* @pjs preload="TigerFortress2/data/playfield.jpg"; */
 PImage PlayfieldImage;
 
 
