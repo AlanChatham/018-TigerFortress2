@@ -10,11 +10,11 @@ int iox = IMAGE_OFFSET_X;
 int ioy = IMAGE_OFFSET_Y;
 
 
-/* @pjs preload="TigerFortress2/data/playfield.jpg"; */
+/* @pjs preload="playfield.jpg"; */
 PImage PlayfieldImage;
 
 
-int ENEMY_FRAME_RESET = 900000;
+int ENEMY_FRAME_RESET = 90;
 int FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
 
 int SniperFramesUntilMove = 90;
@@ -71,9 +71,9 @@ void setup(){
   PlayfieldImage = loadImage("playfield.jpg");
   
   EnemyArray = new ArrayList<Enemy>();
-  EnemyArray.add( new Sniper(0));
-  EnemyArray.add( new Scout());
-  EnemyArray.add( new Heavy());
+//  EnemyArray.add( new Sniper(0));
+//  EnemyArray.add( new Scout());
+//  EnemyArray.add( new Heavy());
 }
 
 void draw(){
