@@ -9,6 +9,8 @@ int IMAGE_OFFSET_Y = 50;
 int iox = IMAGE_OFFSET_X;
 int ioy = IMAGE_OFFSET_Y;
 
+int Score = 0;
+
 
 /* @pjs preload="playfield.jpg"; */
 PImage PlayfieldImage;
@@ -71,6 +73,8 @@ PImage Heavy1ReticleImage;
 PImage Heavy2ReticleImage;
 PImage Heavy3ReticleImage;
 
+PImage Lightning;
+
                            
 PImage[] Sniper0ImageArray;
 PImage[] Sniper1ImageArray;
@@ -112,6 +116,8 @@ void setup(){
   LowNote = minim.loadSample("lowbeep.mp3", 512);
   // Images....
   PlayfieldImage = loadImage("playfield.jpg");
+  Lightning = loadImage("Lightning.png");
+  
   Sniper0Image = loadImage("Sniper0.png");
   Sniper1Image = loadImage("Sniper1.png");
   Scout0Image = loadImage("Scout0.png");
@@ -174,7 +180,7 @@ void draw(){
     else{
       EnemyArray.clear();
       State = PLAYING;
-      println("Resetting...");
+      Score = 0;
     }
   }
   
@@ -200,22 +206,46 @@ void draw(){
    
   }
   if (State == PLAYING){
+     // Update enemies
+    for (int i = 0; i < EnemyArray.size(); i++){
+      Enemy enemy = EnemyArray.get(i);
+      enemy.Update();
+      // And if one gets too close, kill the player
+      if (enemy.ordinalPosition >= enemy.positionArray.length){
+        State = GAME_OVER;
+        GameOverFrames = GAME_OVER_FRAME_RESET;
+      }
+    }
+    
+    // Create a new enemy every so often
+    FramesUntilEnemySpawn--;
+    if (FramesUntilEnemySpawn <= 0){
+      float rand = random(9);
+      if (rand <= 3){
+        EnemyArray.add(new Scout());
+      } else if (rand <= 6){
+        EnemyArray.add(new Heavy());
+      } else if (rand <= 8){
+        EnemyArray.add(new Sniper(0));
+      } else {
+        EnemyArray.add(new Sniper(1));
+      }
+      FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
+      LowNote.trigger();
+    }
+    
     // Draw the reticle
-    // noFill();
-    // stroke(0);
-    // ellipse(ReticlePositions[ReticleY][ReticleX][0], ReticlePositions[ReticleY][ReticleX][1], ReticleDiameter, ReticleDiameter);
     image(ReticleImageArray[ReticleY][ReticleX], ReticlePositions[ReticleY][ReticleX][0], ReticlePositions[ReticleY][ReticleX][1]);
   
     // Fire! This gets set in a key listener event
     if (Fired == true && ShotCooldown == 0){
-      println("Fired! Power: " + ShotPower);
       // Let's see if we hit anything...
       for (int i = 0; i < EnemyArray.size(); i++){
         int x = ReticlePositions[ReticleY][ReticleX][0];
         int y = ReticlePositions[ReticleY][ReticleX][1];
         Enemy enemy = EnemyArray.get(i);
         if (enemy.position[0] == x && enemy.position[1] == y){
-          println("Hit enemy #" + i);
+          Score++;
           enemy.health -= ShotPower;
           if (enemy.health <= 0){
             EnemyArray.remove(i);
@@ -250,44 +280,17 @@ void draw(){
       for (int i = 0; i < barsToDraw; i++){
         int y = ShotPowerY - (ShotPowerVerticalOffset * i);
         line(ShotPowerX, y, ShotPowerX + ShotPowerBarWidth + (ShotPowerWidthIncrement * i), y);
-      }    
+      } 
+      image(Lightning, ShotPowerX, ShotPowerY - 80);
     }
   
     
-    // Update enemies
-    for (int i = 0; i < EnemyArray.size(); i++){
-      Enemy enemy = EnemyArray.get(i);
-      enemy.Update();
-      // And if one gets too close, kill the player
-      if (enemy.ordinalPosition >= enemy.positionArray.length){
-        println("You died!");
-        State = GAME_OVER;
-        GameOverFrames = GAME_OVER_FRAME_RESET;
-      }
-    }
-    
-    
-    // Create a new enemy every so often
-    FramesUntilEnemySpawn--;
-    if (FramesUntilEnemySpawn <= 0){
-      float rand = random(9);
-      if (rand <= 3){
-        EnemyArray.add(new Scout());
-      } else if (rand <= 6){
-        EnemyArray.add(new Heavy());
-      } else if (rand <= 8){
-        EnemyArray.add(new Sniper(0));
-      } else {
-        EnemyArray.add(new Sniper(1));
-      }
-      FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
-      LowNote.trigger();
-    }
+   
   }
 }
 
 void mousePressed(){
-  println("X:" + (mouseX-iox) + " Y:" + (mouseY-ioy));
+ // println("X:" + (mouseX-iox) + " Y:" + (mouseY-ioy));
 }
 
 void keyPressed(){
