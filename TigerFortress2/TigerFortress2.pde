@@ -11,14 +11,13 @@ int ioy = IMAGE_OFFSET_Y;
 
 PImage PlayfieldImage;
 
-boolean Fired = false;
 
-color DarkBlu = color(82,124,154);
-color LightBlu = color(153,194,216);
+int ENEMY_FRAME_RESET = 900000;
+int FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
 
-int SniperFramesUntilMove = 300;
-int ScoutFramesUntilMove = 100;
-int HeavyFramesUntilMove = 200;
+int SniperFramesUntilMove = 90;
+int ScoutFramesUntilMove = 30;
+int HeavyFramesUntilMove = 60;
 
 
 int SHOT_POWER_INCREMENT = 1;
@@ -29,14 +28,14 @@ int ShotCooldown = 0;
 int SHOT_COOLDOWN_RESET = 30;
 
 
-int[][] Sniper0PositionArray = { {300+iox, 200+ioy} };
-int[][] Sniper1PositionArray = { {400+iox, 200+ioy} };
-int[][] ScoutPositionArray = { {200+iox, 200+ioy}, {300+iox, 200+ioy}, {200+iox, 300+ioy}};
-int[][] HeavyPositionArray = { {200+iox, 250+ioy}, {300+iox, 300+ioy}, {400+iox, 400+ioy}, {300+iox, 400+ioy} };
+int[][] Sniper0PositionArray = { {355+iox, 64+ioy} };
+int[][] Sniper1PositionArray = { {400+iox, 64+ioy} };
+int[][] ScoutPositionArray = { {210+iox, 64+ioy}, {325+iox, 150+ioy}, {391+iox, 196+ioy}, {167+iox, 230+ioy} };
+int[][] HeavyPositionArray = { {218+iox, 150+ioy}, {362+iox, 207+ioy}, {467+iox, 400+ioy}, {267+iox, 473+ioy} };
 
 int[][][] ReticlePositions = { {ScoutPositionArray[0], Sniper0PositionArray[0], Sniper1PositionArray[0]},
                                {HeavyPositionArray[0], ScoutPositionArray[1]},
-                               {ScoutPositionArray[2], HeavyPositionArray[1]},
+                               {ScoutPositionArray[3], HeavyPositionArray[1], ScoutPositionArray[2]},
                                {HeavyPositionArray[3], HeavyPositionArray[2]}
                              };
                                
@@ -59,8 +58,10 @@ int ReticleDiameter = 40;
                                
 ArrayList<Enemy> EnemyArray;
 
-Sniper sniper;
-Scout scout;
+boolean Fired = false;
+
+color DarkBlu = color(82,124,154);
+color LightBlu = color(153,194,216);
 
 void setup(){
   size(SIZE_X, SIZE_Y);
@@ -90,8 +91,11 @@ void draw(){
       Enemy enemy = EnemyArray.get(i);
       if (enemy.position[0] == x && enemy.position[1] == y){
         println("Hit enemy #" + i);
-        EnemyArray.remove(i);
-        break;
+        enemy.health -= ShotPower;
+        if (enemy.health <= 0){
+          EnemyArray.remove(i);
+          break;
+        }
       }
     }
     
@@ -127,8 +131,35 @@ void draw(){
   
   // Update enemies
   for (int i = 0; i < EnemyArray.size(); i++){
-    EnemyArray.get(i).Update();
+    Enemy enemy = EnemyArray.get(i);
+    enemy.Update();
+    // And if one gets too close, kill the player
+    if (enemy.ordinalPosition >= enemy.positionArray.length){
+      println("You died!");
+    }
   }
+  
+  // If an enemy gets too close
+  
+  // Create a new enemy every so often
+  FramesUntilEnemySpawn--;
+  if (FramesUntilEnemySpawn <= 0){
+    float random = random(9);
+    if (random <= 3){
+      EnemyArray.add(new Scout());
+    } else if (random <= 6){
+      EnemyArray.add(new Heavy());
+    } else if (random <= 8){
+      EnemyArray.add(new Sniper(0));
+    } else {
+      EnemyArray.add(new Sniper(1));
+    }
+    FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
+  }
+}
+
+void mousePressed(){
+  println("X:" + mouseX + " Y:" + mouseY);
 }
 
 void keyPressed(){
@@ -166,7 +197,7 @@ public abstract class Enemy{
   public int health;
   public int[] position;
   protected int[][] positionArray;
-  protected int ordinalPosition = 0;
+  public int ordinalPosition = 0;
   // If an enemy gets to positionArray.length, then player loses
   
   // Set up some defaults to set common attributes
