@@ -12,7 +12,11 @@ int ioy = IMAGE_OFFSET_Y;
 int Score = 0;
 
 
-/* @pjs preload="playfield.jpg"; */
+/* @pjs preload="playfield.jpg, Lightning.png, Sniper0.png, Sniper1.png,
+Scout0.png, Scout1.png, Scout2.png, Scout3.png, Heavy0.png, Heavy1.png, Heavy2.png,
+Heavy3.png, Sniper0Reticle.png, Sniper1Reticle.png, Scout0Reticle.png,
+Scout1Reticle.png, Scout2Reticle.png, Scout3Reticle.png, Heavy0Reticle.png,
+Heavy1Reticle.png, Heavy2Reticle.png, Heavy3Reticle.png"; */
 PImage PlayfieldImage;
 
 
