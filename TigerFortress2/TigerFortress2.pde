@@ -105,19 +105,19 @@ color DarkBlu = color(82,124,154);
 color LightBlu = color(153,194,216);
 
 
-import ddf.minim.*;
+//import ddf.minim.*;
 
-Minim minim;
-AudioSample HighNote;
-AudioSample LowNote;
+//Minim minim;
+//AudioSample HighNote;
+//AudioSample LowNote;
 
 void setup(){
   size(SIZE_X, SIZE_Y);
   frameRate(30);
   // Sound
-  minim = new Minim(this);
-  HighNote = minim.loadSample("highbeep.mp3", 512);
-  LowNote = minim.loadSample("lowbeep.mp3", 512);
+//  minim = new Minim(this);
+//  HighNote = minim.loadSample("highbeep.mp3", 512);
+//  LowNote = minim.loadSample("lowbeep.mp3", 512);
   // Images....
   PlayfieldImage = loadImage("playfield.jpg");
   Lightning = loadImage("Lightning.png");
@@ -235,7 +235,7 @@ void draw(){
         EnemyArray.add(new Sniper(1));
       }
       FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
-      LowNote.trigger();
+//      LowNote.trigger();
     }
     
     // Draw the reticle
@@ -345,12 +345,12 @@ public abstract class Enemy{
     this.currentFrame++;
     // Move if it's been long enough
     if (this.currentFrame >= this.framesUntilMove){
-      if (this.ordinalPosition % 2 == 0){
-        HighNote.trigger();
-      }
-      else{
-        LowNote.trigger();
-      }
+//      if (this.ordinalPosition % 2 == 0){
+//        HighNote.trigger();
+//      }
+//      else{
+//        LowNote.trigger();
+//      }
       currentFrame = 0;
       ordinalPosition += 1;
       // If we've still got movement path left, change position
@@ -407,9 +407,6 @@ public class Sniper extends Enemy{
         image(Sniper1ImageArray[Sniper1ImageArray.length-1], this.position[0], this.position[1]);
       }
     }
-//    fill(LightBlu);
-//    stroke(DarkBlu);
-//    rect(this.position[0], this.position[1], 20, 20);
   } 
 }
 
@@ -429,9 +426,6 @@ public class Scout extends Enemy{
     if (this.ordinalPosition >= ScoutImageArray.length){
       image(ScoutImageArray[ScoutImageArray.length-1], this.position[0], this.position[1]);
     }
-   // fill(LightBlu);
-   // stroke(DarkBlu);
-   // rect(this.position[0], this.position[1], 10, 20);
   }
 }
 
@@ -451,9 +445,6 @@ public class Heavy extends Enemy{
     if (this.ordinalPosition >= HeavyImageArray.length){
       image(HeavyImageArray[HeavyImageArray.length-1], this.position[0], this.position[1]);
     }
-    //fill(LightBlu);
-    // stroke(DarkBlu);
-    //rect(this.position[0], this.position[1], 30, 30);
   }
 }
 
