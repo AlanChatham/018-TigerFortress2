@@ -1,10 +1,10 @@
 
 
-int SIZE_X = 800;
-int SIZE_Y = 600;
+int SIZE_X = 640;
+int SIZE_Y = 500;
 
-int IMAGE_OFFSET_X = 50;
-int IMAGE_OFFSET_Y = 50;
+int IMAGE_OFFSET_X = 0;
+int IMAGE_OFFSET_Y = 0;
 
 int iox = IMAGE_OFFSET_X;
 int ioy = IMAGE_OFFSET_Y;
