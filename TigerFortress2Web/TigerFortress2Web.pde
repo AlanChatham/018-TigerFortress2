@@ -189,6 +189,10 @@ void draw(){
       for(int i = 0; i < EnemyArray.size(); i++){
         Enemy enemy = EnemyArray.get(i);
         if (enemy.ordinalPosition >= enemy.positionArray.length && GameOverFrames % 30 > 15){
+           if (GameOverFrames % 30 == 29){
+            LowNote.play();
+            HighNote.play();
+          }
           enemy.Draw();
         }
       }
