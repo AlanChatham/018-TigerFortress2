@@ -371,6 +371,15 @@ Full-Width Styles
   background: #212121;
 }
 
+#game_canvas{
+  position:relative;
+  height:515px;
+  width:640px;
+  //background: #993300;
+  top:360px;
+  
+}
+
 
 
 /*******************************************************************************
