@@ -1,10 +1,4 @@
-/*
-   Tiger Fortress 2
-   2014 - Alan Chatham, Kait Copenspire
-   
-   This processing sketch is for running on a computer.
-   There is another version tuned specifically for Processing.js.
-*/
+
 
 int SIZE_X = 640;
 int SIZE_Y = 500;
@@ -18,6 +12,11 @@ int ioy = IMAGE_OFFSET_Y;
 int Score = 0;
 
 
+/* @pjs preload="playfield.jpg, Lightning.png, Sniper0.png, Sniper1.png,
+Scout0.png, Scout1.png, Scout2.png, Scout3.png, Heavy0.png, Heavy1.png, Heavy2.png,
+Heavy3.png, Sniper0Reticle.png, Sniper1Reticle.png, Scout0Reticle.png,
+Scout1Reticle.png, Scout2Reticle.png, Scout3Reticle.png, Heavy0Reticle.png,
+Heavy1Reticle.png, Heavy2Reticle.png, Heavy3Reticle.png"; */
 PImage PlayfieldImage;
 
 
@@ -106,19 +105,19 @@ color DarkBlu = color(82,124,154);
 color LightBlu = color(153,194,216);
 
 
-import ddf.minim.*;
+//import ddf.minim.*;
 
-Minim minim;
-AudioSample HighNote;
-AudioSample LowNote;
+//Minim minim;
+//AudioSample HighNote;
+//AudioSample LowNote;
 
 void setup(){
   size(SIZE_X, SIZE_Y);
   frameRate(30);
   // Sound
-  minim = new Minim(this);
-  HighNote = minim.loadSample("highbeep.mp3", 512);
-  LowNote = minim.loadSample("lowbeep.mp3", 512);
+//  minim = new Minim(this);
+//  HighNote = minim.loadSample("highbeep.mp3", 512);
+//  LowNote = minim.loadSample("lowbeep.mp3", 512);
   // Images....
   PlayfieldImage = loadImage("playfield.jpg");
   Lightning = loadImage("Lightning.png");
@@ -236,7 +235,7 @@ void draw(){
         EnemyArray.add(new Sniper(1));
       }
       FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
-      LowNote.trigger();
+//      LowNote.trigger();
     }
     
     // Draw the reticle
@@ -295,7 +294,7 @@ void draw(){
 }
 
 void mousePressed(){
-  println("X:" + (mouseX-iox) + " Y:" + (mouseY-ioy));
+ // println("X:" + (mouseX-iox) + " Y:" + (mouseY-ioy));
 }
 
 void keyPressed(){
@@ -346,12 +345,12 @@ public abstract class Enemy{
     this.currentFrame++;
     // Move if it's been long enough
     if (this.currentFrame >= this.framesUntilMove){
-      if (this.ordinalPosition % 2 == 0){
-        HighNote.trigger();
-      }
-      else{
-        LowNote.trigger();
-      }
+//      if (this.ordinalPosition % 2 == 0){
+//        HighNote.trigger();
+//      }
+//      else{
+//        LowNote.trigger();
+//      }
       currentFrame = 0;
       ordinalPosition += 1;
       // If we've still got movement path left, change position
