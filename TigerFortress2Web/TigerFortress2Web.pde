@@ -178,9 +178,9 @@ void draw(){
   // Draw a few inset lines to make the canvas sit well
   // in it's border
   stroke(color(50, 200));
-  strokeWeight(8);
+  strokeWeight(6);
   noFill();
-  rect(0,0, height+10, width+10);
+  rect(0,0, width+10, height+10);
   
   if (State == GAME_OVER){
     if (GameOverFrames > 0){

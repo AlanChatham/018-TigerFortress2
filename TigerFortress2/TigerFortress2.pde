@@ -169,6 +169,12 @@ void setup(){
 void draw(){
   tint(255, 200);
   image(PlayfieldImage, IMAGE_OFFSET_X, IMAGE_OFFSET_Y);
+  // Draw a few inset lines to make the canvas sit well
+  // in it's border
+  stroke(color(50, 200));
+  strokeWeight(8);
+  noFill();
+  rect(0,0, width+10, height+10);
   
   if (State == GAME_OVER){
     if (GameOverFrames > 0){
@@ -288,9 +294,6 @@ void draw(){
       } 
       image(Lightning, ShotPowerX, ShotPowerY - 80);
     }
-  
-    
-   
   }
 }
 
