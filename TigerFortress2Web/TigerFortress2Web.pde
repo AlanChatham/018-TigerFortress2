@@ -298,7 +298,7 @@ void draw(){
   // Draw a few inset lines to make the canvas sit well
   // in it's border
   stroke(color(50, 200));
-  strokeWeight(1);
+  strokeWeight(2);
   line(0, 0, 0, height-1);
   line(0, 0, width-1, 0);
    
