@@ -111,6 +111,10 @@ color LightBlu = color(153,194,216);
 //AudioSample HighNote;
 //AudioSample LowNote;
 
+// Audio code for Processing.js and HTML5 Audio element
+Audio LowNote = new Audio();
+Audio HighNote = new Audio();
+
 void setup(){
   size(SIZE_X, SIZE_Y);
   frameRate(30);
@@ -118,6 +122,9 @@ void setup(){
 //  minim = new Minim(this);
 //  HighNote = minim.loadSample("highbeep.mp3", 512);
 //  LowNote = minim.loadSample("lowbeep.mp3", 512);
+  LowNote.setAttribute("src", "sounds/lowbeep.mp3");
+  HighNote.setAttribute("src", "sounds/highbeep.mp3");
+
   // Images....
   PlayfieldImage = loadImage("playfield.jpg");
   Lightning = loadImage("Lightning.png");
@@ -235,7 +242,7 @@ void draw(){
         EnemyArray.add(new Sniper(1));
       }
       FramesUntilEnemySpawn = ENEMY_FRAME_RESET;
-//      LowNote.trigger();
+        LowNote.play();
     }
     
     // Draw the reticle
@@ -345,12 +352,12 @@ public abstract class Enemy{
     this.currentFrame++;
     // Move if it's been long enough
     if (this.currentFrame >= this.framesUntilMove){
-//      if (this.ordinalPosition % 2 == 0){
-//        HighNote.trigger();
-//      }
-//      else{
-//        LowNote.trigger();
-//      }
+      if (this.ordinalPosition % 2 == 0){
+        HighNote.play();
+      }
+      else{
+        LowNote.play();
+      }
       currentFrame = 0;
       ordinalPosition += 1;
       // If we've still got movement path left, change position
